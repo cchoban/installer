@@ -34,17 +34,17 @@ cobanPath = programData + "\\choban"
 toolsPath = os.getenv("programfiles") + "\\tools"
 
 if os.path.exists("choban.zip"):
-    if not os.path.exists("choban"):
-        os.makedirs(os.getcwd() + "\\choban")
+    if not os.path.exists(os.getcwd()+"\\choban"):
+        os.makedirs(os.getcwd() + "\\choban\\programData")
 
-    if not os.path.exists(choban):
-        extractZip(choban, os.getcwd() + "\\choban")
+    if os.path.exists(choban):
+        extractZip(choban, os.getcwd() + "\\choban\\programData")
 
     copytree(dir + "\\choban\\programData", cobanPath)
     call("cmd /c setx chobanPath " + cobanPath)
     call('cmd /c setx chobanTools {0}'.format('"' + toolsPath + '"'))
     call('setx /M PATH "%PATH%;{0}"'.format(cobanPath))
-
-    print("Sucessfully installed Choban.")
+    call('cmd /c choban --doctor')
+    print("Sucessfully installed Choban. Please restart your command prompt and type choban --doctor for the first time.")
 else:
     exit("choban.zip does not exists.")
