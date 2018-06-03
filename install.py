@@ -43,8 +43,8 @@ if os.path.exists("choban.zip"):
     copytree(dir + "\\choban\\programData", cobanPath)
     call("cmd /c setx chobanPath " + cobanPath)
     call('cmd /c setx chobanTools {0}'.format('"' + toolsPath + '"'))
-    call('setx /M PATH "%PATH%;{0}"'.format(cobanPath)
+    call('setx /M PATH "%PATH%;{0}"'.format(cobanPath))
 
     print("Sucessfully installed Choban.")
-    else:
+else:
     exit("choban.zip does not exists.")
