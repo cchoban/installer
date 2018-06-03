@@ -1,0 +1,1 @@
+# Installer for Choban Package Manager.
