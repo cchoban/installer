@@ -93,4 +93,8 @@ if ((Test-Path $env:programdata\choban)) {
     Remove-Item $env:programdata\choban -Force -Recurse
 }
 Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
+
+
+Write-Host "Removing Junk files.." -f cyan
+Remove-Item $path -Force -Recurse
 Write-Host "Sucessfully installed Choban" -f Green
