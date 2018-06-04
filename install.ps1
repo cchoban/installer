@@ -67,24 +67,30 @@ if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
 
 
 Write-Host "Installing Python 3.." -f cyan
-#$p = Start-Process $path\python3.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -wait -NoNewWindow -PassThru
-#if ($p.HasExited -and ($p.ExitCode -eq 0)){
-#    Write-Host "Sucessfully installed Python 3 " -f green
-#}else {
-#    Write-Host "Could not install Python 3 " -f red
-#}
-
-
-if(!(Test-Path $path\choban\programData)) {
-    Unzip $path\chob.zip $path\choban\programData
+$p = Start-Process $path\python3.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -wait -NoNewWindow -PassThru
+if ($p.HasExited -and ($p.ExitCode -eq 0)){
+    Write-Host "Sucessfully installed Python 3 " -f green
+}else {
+    Write-Host "Could not install Python 3 " -f red
 }
 
+
+if((Test-Path $path\choban\programData)) {
+    Remove-Item $path\choban\programData -Force -Recurse
+}
+
+Unzip $path\chob.zip $path\choban\programData
 
 
 Write-Host "Setting correct environments.." -f Cyan
 [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
-cmd /c $path\choban\programData\refreshenv.cmd
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath", [EnvironmentVariableTarget]::Machine)
 
-Copy-Item $path\choban\programData\ -Recurse -Destination  "$env:programdata\choban" -Container
+
+$cobanPath = "$path\choban\programData\"
+if ((Test-Path $env:programdata\choban)) {
+    Remove-Item $env:programdata\choban -Force -Recurse
+}
+Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 Write-Host "Sucessfully installed Choban" -f Green
