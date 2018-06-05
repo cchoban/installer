@@ -56,19 +56,20 @@ if (checkArch){
 }else {
     $pythonUrl = "https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe"
 }
-
+$chobanUrl = "http://mrmkaplan.com/chob.zip"
 
 if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
 {
     Write-Host "Downloading Python 3 from $pythonUrl..." -f cyan
     downloadFile -url $pythonUrl -outPath $scriptRoot\.choban\python3.exe
-    downloadFile -url "http://mrmkaplan.com/chob.zip" -outPath $path
+	Write-Host "Downloading Choban from $chobanUrl..." -f cyan
+    downloadFile -url $chobanUrl -outPath $path
 }
 
 
 Write-Host "Installing Python 3.." -f cyan
 $p = Start-Process $path\python3.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -wait -NoNewWindow -PassThru
-if ($p.HasExited -and ($p.ExitCode -eq 0)){
+if ($p -and $p.HasExited -and ($p.ExitCode -eq 0)){
     Write-Host "Sucessfully installed Python 3 " -f green
 }else {
     Write-Host "Could not install Python 3 " -f red
@@ -95,6 +96,9 @@ if ((Test-Path $env:programdata\choban)) {
 Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
 
+cmd /c "$cobanPath\refreshenv.cmd"
+cmd /c "chob --download-chob-dependencies"
 Write-Host "Removing Junk files.." -f cyan
 Remove-Item $path -Force -Recurse
 Write-Host "Sucessfully installed Choban" -f Green
+Write-Host "Please run chob --doctor for the first time." -f Green
