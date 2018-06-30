@@ -6,6 +6,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     Write-Host "Please run script as Administrator." -f red
     exit
 }
+
 function Unzip
 {
     param([string]$zipfile, [string]$outpath)
@@ -17,7 +18,7 @@ function Unzip
 
 function downloadFile($url, $outPath){
     $start_time = Get-Date
-    Start-BitsTransfer -Source $url -Destination $outPath 
+    Start-BitsTransfer -Source $url -Destination $outPath
     Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
 }
 
@@ -86,7 +87,8 @@ Unzip $path\chob.zip $path\choban\programData
 Write-Host "Setting correct environments.." -f Cyan
 [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath", [EnvironmentVariableTarget]::Machine)
+[Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath" + ";$env:chobanCli", [EnvironmentVariableTarget]::Machine)
 
 
 $cobanPath = "$path\choban\programData\"
