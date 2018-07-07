@@ -89,7 +89,7 @@ Write-Host "Setting correct environments.." -f Cyan
 [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath" + ";$env:chobanCli", [EnvironmentVariableTarget]::Machine)
-
+setx PATH $env:Path + ";$env:chobanPath" + ";$env:chobanCli" -m
 
 $cobanPath = "$path\choban\programData\"
 if ((Test-Path $env:programdata\choban)) {
