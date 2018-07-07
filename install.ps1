@@ -100,7 +100,7 @@ Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
 
 cmd /c "$env:programdata\choban\refreshenv.cmd"
-cmd /c "$env:programdata\choban\chob --download-chob-dependencies"
+& "$env:programdata\choban\download-dependencies.py"
 #cmd /c "chob --download-chob-dependencies"
 
 Write-Host "Removing Junk files.." -f cyan
