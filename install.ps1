@@ -101,7 +101,11 @@ Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 cmd /c "$env:programdata\choban\refreshenv.cmd"
 cmd /c "$env:programdata\choban\chob --download-chob-dependencies"
 #cmd /c "chob --download-chob-dependencies"
+
 Write-Host "Removing Junk files.." -f cyan
-Remove-Item $path -Force -Recurse
+Write-Host "You may need to restart your shell to get it run." -f Yellow
 Write-Host "Sucessfully installed Choban" -f Green
 Write-Host "Please run chob --doctor for the first time." -f Green
+Remove-Item $path -Force -Recurse
+Start-Sleep -Seconds 3
+exit
