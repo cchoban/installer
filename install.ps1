@@ -98,8 +98,9 @@ if ((Test-Path $env:programdata\choban)) {
 Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
 
-cmd /c "$cobanPath\refreshenv.cmd"
-cmd /c "chob --download-chob-dependencies"
+cmd /c "$env:programdata\choban\refreshenv.cmd"
+cmd /c "$env:programdata\choban\chob --download-chob-dependencies"
+#cmd /c "chob --download-chob-dependencies"
 Write-Host "Removing Junk files.." -f cyan
 Remove-Item $path -Force -Recurse
 Write-Host "Sucessfully installed Choban" -f Green
