@@ -88,8 +88,9 @@ Write-Host "Setting correct environments.." -f Cyan
 [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
 [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath" + ";$env:chobanCli", [EnvironmentVariableTarget]::Machine)
-setx PATH $env:Path + ";$env:chobanPath" + ";$env:chobanCli" -m
+#[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath" + ";$env:chobanCli", [EnvironmentVariableTarget]::Machine)
+$envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
+setx PATH $envs -m
 
 $cobanPath = "$path\choban\programData\"
 if ((Test-Path $env:programdata\choban)) {
@@ -107,5 +108,6 @@ Write-Host "You may need to restart your shell to get it run." -f Yellow
 Write-Host "Sucessfully installed Choban" -f Green
 Write-Host "Please run chob --doctor for the first time." -f Green
 Remove-Item $path -Force -Recurse
+Write-Host "Powershell will not exit in 3 seconds." -f Cyan
 Start-Sleep -Seconds 3
 exit
