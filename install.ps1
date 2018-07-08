@@ -7,6 +7,37 @@ If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     exit
 }
 
+function Add-To-Path {
+    Write-Host "Setting correct environments.." -f Cyan
+    [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
+    [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
+    [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
+    $envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
+    $addPath = [Environment]::SetEnvironmentVariable("Path", $envs, [EnvironmentVariableTarget]::Machine)
+    if (!$addPath){
+        setx PATH $envs -m
+        Write-Debug -Message "Using setx"
+    }
+}
+
+function Run-Choban {
+    $runDoctor = Start-Process chob -ArgumentList "--doctor" -wait -Passthru -verb runAs
+    if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
+        Write-Host "You can now use the Choban Package Manager. I hope you enjoy it!" -f Green
+    }else {
+        Write-Host "Cannot run Choban from the 'PATH' environment." -f Red
+        Write-Host "Trying to add Choban to 'PATH' enviroment." -f Cyan
+        Write-Host "Because of incorrect environments, trying to run Choban from absolute path." -f
+        Add-to-Path
+        $runDoctor = Start-Process powershell.exe -ArgumentList "$env:programdata\choban\chob.exe --doctor; pause" -wait -Passthru -verb runAs
+        if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
+            Write-Host "Choban is working fine but you need add Choban package manager to your 'PATH' enviroment" -f Cyan
+        }else {
+            Write-Host "Installation was not success" -f Red
+            Write-Host $runDoctor.ExitCode
+        }
+    }
+}
 function Unzip
 {
     param([string]$zipfile, [string]$outpath)
@@ -83,14 +114,7 @@ if((Test-Path $path\choban\programData)) {
 
 Unzip $path\chob.zip $path\choban\programData
 
-
-Write-Host "Setting correct environments.." -f Cyan
-[Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
-#[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:chobanPath" + ";$env:chobanCli", [EnvironmentVariableTarget]::Machine)
-$envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
-setx PATH $envs -m
+Add-To-Path
 
 $cobanPath = "$path\choban\programData\"
 if ((Test-Path $env:programdata\choban)) {
@@ -110,4 +134,5 @@ Write-Host "Please run chob --doctor for the first time." -f Green
 Remove-Item $path -Force -Recurse
 Write-Host "Powershell will not exit in 3 seconds." -f Cyan
 Start-Sleep -Seconds 3
+Run-Choban
 exit
