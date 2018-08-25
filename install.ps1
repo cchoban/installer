@@ -88,7 +88,7 @@ if (checkArch){
 }else {
     $pythonUrl = "https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe"
 }
-$chobanUrl = "http://mrmkaplan.com/chob.zip"
+$chobanUrl = "https://choban.herokuapp.com/chob.zip"
 
 if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
 {
