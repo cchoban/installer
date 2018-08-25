@@ -1,4 +1,4 @@
-$chobanPath = $env:ProgramData + '\choban1'
+$chobanPath = $env:ProgramData + '\choban'
 
 if (Test-Path($chobanPath)) {
     Write-Host 'Deleting '$chobanPath -f Cyan
