@@ -13,7 +13,7 @@ function Add-To-Path {
     [Environment]::SetEnvironmentVariable("chobanTools","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
     [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
     $envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
-    $addPath = [Environment]::SetEnvironmentVariable("Path", $envs, [EnvironmentVariableTarget]::Machine)
+    $addPath = [Environment]::SetEnvironmentVariable("PATH", $envs, [EnvironmentVariableTarget]::Machine)
     if (!$addPath){
         setx PATH $envs -m
         Write-Debug -Message "Using setx"
@@ -21,7 +21,7 @@ function Add-To-Path {
 }
 
 function Run-Choban {
-    $runDoctor = Start-Process chob -ArgumentList "--doctor" -wait -Passthru -verb runAs
+    $runDoctor = Start-Process chob.exe -ArgumentList "--doctor" -wait -Passthru -verb runAs
     if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
         Write-Host "You can now use the Choban Package Manager. I hope you enjoy it!" -f Green
     }else {
