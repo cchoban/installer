@@ -125,14 +125,10 @@ Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
 cmd /c "$env:programdata\choban\refreshenv.cmd"
 & "$env:programdata\choban\download-dependencies.py"
-#cmd /c "chob --download-chob-dependencies"
 
 Write-Host "Removing Junk files.." -f cyan
 Write-Host "You may need to restart your shell to get it run." -f Yellow
 Write-Host "Sucessfully installed Choban" -f Green
-Write-Host "Please run chob --doctor for the first time." -f Green
 Remove-Item $path -Force -Recurse
-Write-Host "Powershell will not exit in 3 seconds." -f Cyan
-Start-Sleep -Seconds 3
 Run-Choban
 pause
