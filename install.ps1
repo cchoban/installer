@@ -1,13 +1,5 @@
 ﻿Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-if(Get-Module BitsTransfer) {
-    Import-Module BitsTransfer
-    $downloadClient = 'bitstransfer'
-    Write-Debug 'Download Client: Bitstransfer'
-} else {
-    $downloadClient = 'webclient'
-    Write-Debug 'Download Client: Webclient'
-}
+Import-Module BitsTransfer
 
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 {
@@ -57,12 +49,7 @@ function Unzip
 
 function downloadFile($url, $outPath){
     $start_time = Get-Date
-    if ($downloadClient -eq 'bitstransfer') {
-        Start-BitsTransfer -Source $url -Destination $outPath
-    } else {
-        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true} ;
-        $wc = (New-Object System.Net.WebClient).DownloadFile($url, $outPath)
-    }
+    Start-BitsTransfer -Source $url -Destination $outPath
     Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
 }
 
@@ -110,6 +97,8 @@ if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
 	Write-Host "Downloading Choban from $chobanUrl..." -f cyan
     downloadFile -url $chobanUrl -outPath $scriptRoot\.choban\chob.zip
 }
+
+exit
 
 
 Write-Host "Installing Python 3.." -f cyan
