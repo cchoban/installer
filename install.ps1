@@ -21,13 +21,13 @@ function Add-To-Path {
 }
 
 function Run-Choban {
-    $runDoctor = Start-Process chob.exe -ArgumentList "--doctor" -wait -Passthru -verb runAs
+    $runDoctor = Start-Process $env:chobanPath\chob.exe -ArgumentList "--doctor" -wait -Passthru -verb runAs
     if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
         Write-Host "You can now use the Choban Package Manager. I hope you enjoy it!" -f Green
     }else {
         Write-Host "Cannot run Choban from the 'PATH' environment." -f Red
         Write-Host "Trying to add Choban to 'PATH' enviroment." -f Cyan
-        Write-Host "Because of incorrect environments, trying to run Choban from absolute path." -f
+        Write-Host "Because of incorrect environments, trying to run Choban from absolute path." -f Cyan
         Add-to-Path
         $runDoctor = Start-Process powershell.exe -ArgumentList "$env:programdata\choban\chob.exe --doctor; pause" -wait -Passthru -verb runAs
         if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
