@@ -4,7 +4,7 @@ Import-Module BitsTransfer
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
 {
     Write-Host "Please run script as Administrator." -f red
-    exit
+    pause
 }
 
 function Add-To-Path {
