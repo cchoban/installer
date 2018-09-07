@@ -98,9 +98,6 @@ if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
     downloadFile -url $chobanUrl -outPath $scriptRoot\.choban\chob.zip
 }
 
-exit
-
-
 Write-Host "Installing Python 3.." -f cyan
 $p = Start-Process $path\python3.exe -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -wait -NoNewWindow -PassThru
 if ($p -and $p.HasExited -and ($p.ExitCode -eq 0)){
