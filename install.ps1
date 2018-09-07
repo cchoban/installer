@@ -135,4 +135,4 @@ Remove-Item $path -Force -Recurse
 Write-Host "Powershell will not exit in 3 seconds." -f Cyan
 Start-Sleep -Seconds 3
 Run-Choban
-exit
+pause
