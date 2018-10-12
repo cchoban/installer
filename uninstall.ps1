@@ -26,7 +26,7 @@ catch {
 
 
 Write-Host 'Deleting Envoirement Variables' -f Cyan
-[Environment]::SetEnvironmentVariable("chobanTools", $null, "Machine")
+[Environment]::SetEnvironmentVariable("chobanApps", $null, "Machine")
 [Environment]::SetEnvironmentVariable("chobanCli", $null, "Machine")
 [Environment]::SetEnvironmentVariable("chobanPath", $null, "Machine")
 
