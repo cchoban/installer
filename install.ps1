@@ -10,7 +10,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 function Add-To-Path {
     Write-Host "Setting correct environments.." -f Cyan
     [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
-    [Environment]::SetEnvironmentVariable("chobanApps","$env:SystemDrive\tools", [EnvironmentVariableTarget]::Machine)
+    [Environment]::SetEnvironmentVariable("chobanApps","$env:SystemDrive\chobanapps", [EnvironmentVariableTarget]::Machine)
     [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
     $envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
     $addPath = [Environment]::SetEnvironmentVariable("PATH", $envs, [EnvironmentVariableTarget]::Machine)
