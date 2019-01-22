@@ -88,7 +88,7 @@ if (checkArch){
 }else {
     $pythonUrl = "https://www.python.org/ftp/python/3.6.5/python-3.6.5.exe"
 }
-$chobanUrl = "https://choban.herokuapp.com/static/chob.zip"
+$chobanUrl = "https://github.com/cchoban/chob/releases/download/0.6.3/chob.zip"
 
 if(!(Test-Path $path"\python3.exe") -and !(Test-Path $path"\chob.zip"))
 {
@@ -121,8 +121,6 @@ if ((Test-Path $env:programdata\choban)) {
 }
 Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
-
-cmd /c "$env:programdata\choban\refreshenv.cmd"
 & "$env:programdata\choban\download-dependencies.py"
 
 Write-Host "Removing Junk files.." -f cyan
