@@ -12,7 +12,7 @@ function Add-To-Path {
     [Environment]::SetEnvironmentVariable("chobanPath","$env:programdata\choban", [EnvironmentVariableTarget]::Machine)
     [Environment]::SetEnvironmentVariable("chobanApps","$env:SystemDrive\chobanapps", [EnvironmentVariableTarget]::Machine)
     [Environment]::SetEnvironmentVariable("chobanCli","$env:programdata\choban\lib", [EnvironmentVariableTarget]::Machine)
-    $envs = $env:PATH+$env:chobanPath+";"+$env:chobanCli
+    $envs = $env:PATH+";"+$env:chobanPath+";"+$env:chobanCli
     $addPath = [Environment]::SetEnvironmentVariable("PATH", $envs, [EnvironmentVariableTarget]::Machine)
     if (!$addPath){
         setx PATH $envs -m
