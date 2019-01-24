@@ -77,7 +77,6 @@ if (Get-PSVersion) {
 
 $path = $scriptRoot + "\.choban"
 
-Write-Output $path
 if (!(Test-Path $path)){
     New-Item -ItemType Directory -Force -Path $path
     Write-Host "Created directory $path " -f green
