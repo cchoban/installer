@@ -122,8 +122,6 @@ if ((Test-Path $env:programdata\choban)) {
 }
 Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
 
-& "$env:programdata\choban\download-dependencies.py"
-
 Write-Host "Removing Junk files.." -f cyan
 Write-Host "You may need to restart your shell to get it run." -f Yellow
 Write-Host "Sucessfully installed Choban" -f Green
