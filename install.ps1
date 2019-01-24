@@ -119,11 +119,13 @@ $cobanPath = "$path\choban\programData\"
 if ((Test-Path $env:programdata\choban)) {
     Remove-Item $env:programdata\choban -Force -Recurse
 }
-Copy-Item $cobanPath -Recurse -Destination  "$env:programdata\choban" -Container
+
+Move-Item -Path $cobanPath -Destination "$env:programdata\choban"
 
 Write-Host "Removing Junk files.." -f cyan
 Write-Host "You may need to restart your shell to get it run." -f Yellow
 Write-Host "Sucessfully installed Choban" -f Green
 Remove-Item $path -Force -Recurse
 Run-Choban
+
 pause
