@@ -27,7 +27,6 @@ function Run-Choban {
     }else {
         Write-Host "Cannot run Choban from the 'PATH' environment." -f Red
         Write-Host "Trying to add Choban to 'PATH' enviroment." -f Cyan
-        Write-Host "Because of incorrect environments, trying to run Choban from absolute path." -f Cyan
         Add-to-Path
         $runDoctor = Start-Process powershell.exe -ArgumentList "$env:programdata\choban\chob.exe --doctor; pause" -wait -Passthru -verb runAs
         if ($runDoctor.HasExited -and ($runDoctor.ExitCode -eq 0)) {
@@ -49,7 +48,9 @@ function Unzip
 
 function downloadFile($url, $outPath){
     $start_time = Get-Date
-    Start-BitsTransfer -Source $url -Destination $outPath
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Invoke-WebRequest $url -Out $outPath
+    
     Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
 }
 
